@@ -1,0 +1,66 @@
+---
+layout: runbook
+title: '#4471 split · three problems, not one'
+owner: support desk
+status: draft
+reviewed: 2026-11-04
+signature: Fidgety Fork
+---
+
+<script>
+  import SplitTable from '#lib/kb/SplitTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const issues = {
+    parser: '',
+    hint: '',
+    'one-day': '',
+  };
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one bug, one fix queued. Read by what each report
+says, and by the tenant and form it came through, it holds three problems. The queued parser fix
+closes only the first. Each problem now has its own ticket.
+
+<SplitTable ticket={4471} {issues} />
+
+<Callout kind="warn">
+The parser fix will not stop the other two. Keep #4471 open for the parser only, and track the
+form hint and the one-day move on their own tickets.
+</Callout>
+
+## The three problems
+
+**`parser`: the shared parser reads every date month first.** A tenant whose locale writes the
+day first gets day and month swapped: "Booked for 2 March. The invite says 3 February." This is
+the bug #4471 describes, and the queued fix is for it.
+
+**`hint`: the booking-v3 form tells people to type month first.** Its date field shows the hint
+`MM/DD/YYYY`, so people type the month first, and the form then reads the date the tenant's way,
+day first. The dates come out swapped too, so they look like the parser bug, but the parser fix
+does not touch them. Only form reports from booking-v3 tenants land here.
+
+**`one-day`: the date moves by one day.** These reports describe no swap at all: "Invite says
+Tuesday 12 May. Calendar says Monday 11 May." "Client in Lisbon got Tuesday. Client in Toronto
+got Monday." The desk already noted them (`desk-notes.json`), but the cause table files them
+under `parser` because of their tenant. A date that shifts by a day points at time zones, not at
+date order.
+
+## Why they were merged
+
+- [Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges on subject line alone. All three
+  problems produce the same subjects ("Wrong day on the invite", "Date is wrong"), so they all
+  landed in #4471.
+- Intake's `intakeTag` is a guess from the reporter's browser. It often disagrees with the
+  tenant, in both directions, so it cannot be used to split them.
+- The export pages overlap: some reports appear twice. Count by id.
+
+## For the desk
+
+- When a report's dates are swapped, check the tenant's form before merging: a booking-v3 form
+  report goes to the hint ticket.
+- When a date moved by one day, it is not a swap. File it on the one-day ticket.
+- Reopen decision 0001 with a new record: subject alone hides different problems.
+
+<RenderStamp {signature} />
