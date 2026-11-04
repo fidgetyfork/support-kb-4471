@@ -13,9 +13,9 @@ signature: Fidgety Fork
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 
   const issues = {
-    parser: '',
-    hint: '',
-    'one-day': '',
+    parser: 'https://github.com/fidgetyfork/support-kb-4471/issues/1',
+    hint: 'https://github.com/fidgetyfork/support-kb-4471/issues/2',
+    'one-day': 'https://github.com/fidgetyfork/support-kb-4471/issues/3',
   };
 </script>
 
