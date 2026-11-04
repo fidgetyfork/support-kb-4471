@@ -22,6 +22,7 @@
   <strong>{split.merged.length}</strong> reports merged into #{ticket} ({raw} rows in the export, {raw - split.merged.length} of them repeats) ·
   <strong>{split.groups.length}</strong> problems
 </p>
+<p class="how">Counted the desk's way: each report stays where its tenant and channel file it. The one-day reports are also listed on their own row.</p>
 
 <table>
   <thead><tr><th>problem</th><th>reports</th><th>tenants</th><th>seen</th><th>ticket</th></tr></thead>
@@ -29,7 +30,7 @@
     {#each split.groups as g (g.problem)}
       <tr>
         <td><code>{g.problem}</code> · {label[g.problem]}</td>
-        <td>{g.reports.length}</td>
+        <td>{g.reports.length}{#if g.readAsOneDay} <small>({g.readAsOneDay} read as a one-day move)</small>{/if}{#if g.alsoIn} <small>(also counted under <code>{g.alsoIn}</code>)</small>{/if}</td>
         <td>{g.tenants}</td>
         <td>{g.firstSeen} → {g.lastSeen}</td>
         <td>{#if issues[g.problem]}<a href={issues[g.problem]}>{issues[g.problem]?.replace(/^.*\/issues\//, '#')}</a>{:else}none yet{/if}</td>
@@ -40,4 +41,5 @@
 
 <style>
   .sum { font-size: 1.1rem; }
+  .how, small { color: var(--muted); font-size: 0.85em; }
 </style>
