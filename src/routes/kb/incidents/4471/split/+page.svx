@@ -19,15 +19,25 @@ signature: Fidgety Fork
   };
 </script>
 
-[#4471](/kb/incidents/4471) is marked known: one bug, one fix queued. Read by what each report
-says, and by the tenant and form it came through, it holds three problems. The queued parser fix
-closes only the first. Each problem now has its own ticket.
+[#4471](/kb/incidents/4471) was marked known: one bug, one fix queued. Read by what each report
+says, and by the tenant and form it came through, it holds three problems. Each problem has its
+own ticket.
 
 <SplitTable ticket={4471} {issues} />
 
+## Where each problem stands
+
+Engineering closed #4471 on 5 October.
+
+| problem | engineering | ticket |
+| --- | --- | --- |
+| `parser` | fixed: `fix(dates): parse dd/mm for eu locales` | closed, completed |
+| `hint` | won't fix: the booking-v3 form is retired | closed, not planned |
+| `one-day` | not addressed | **open** |
+
 <Callout kind="warn">
-The parser fix will not stop the other two. Keep #4471 open for the parser only, and track the
-form hint and the one-day move on their own tickets.
+#4471 is closed, but the one-day move is not fixed. Neither the parser fix nor retiring
+booking-v3 touches it. New one-day reports go on its own ticket, not into #4471.
 </Callout>
 
 ## The three problems
